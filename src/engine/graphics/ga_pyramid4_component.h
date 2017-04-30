@@ -16,11 +16,11 @@
 /*
 ** Renderable basic textured cubed.
 */
-class ga_cube_component : public ga_component
+class ga_pyramid4_component : public ga_component
 {
 public:
-	ga_cube_component(class ga_entity* ent, const char* texture_file, GLfloat length, GLfloat height, GLfloat depth);
-	virtual ~ga_cube_component();
+	ga_pyramid4_component(class ga_entity* ent, const char* texture_file, GLfloat length, GLfloat height, GLfloat depth);
+	virtual ~ga_pyramid4_component();
 
 	virtual void update(struct ga_frame_params* params) override;
 

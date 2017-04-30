@@ -18,6 +18,7 @@
 #include "entity/ga_lua_component.h"
 
 #include "graphics/ga_cube_component.h"
+#include "graphics/ga_pyramid4_component.h"
 #include "graphics/ga_program.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -52,11 +53,26 @@ int main(int argc, const char** argv)
 	camera->rotate(rotation);
 
 	// Create an entity whose movement is driven by Lua script.
-	ga_entity lua;
+	/*ga_entity lua;
 	lua.translate({ 0.0f, 2.0f, 1.0f });
 	ga_lua_component lua_move(&lua, "data/scripts/move.lua");
 	ga_cube_component lua_model(&lua, "data/textures/rpi.png");
-	sim->add_entity(&lua);
+	sim->add_entity(&lua);*/
+
+	//Create the entities for the CSG demonstration.
+	ga_entity* obj1 = new ga_entity();
+	ga_pyramid4_component obj1_model(obj1, "data/textures/triangle.png", 2, 2, 2);
+	(*obj1).translate({ 0,0,0 });
+	ga_entity* obj2 = new ga_entity();
+	ga_cube_component obj2_model(obj2, "data/textures/blue.png", 2, 1.73, 2);
+	(*obj2).translate({ 3,3,3 });
+	ga_entity* obj3 = new ga_entity();
+	ga_pyramid4_component obj3_model(obj3, "data/textures/red.png", 3, 1, 2);
+	(*obj3).translate({ 7,7,7 });
+
+	sim->add_entity(obj1);
+	sim->add_entity(obj2);
+	sim->add_entity(obj3);
 
 	// Main loop:
 	while (true)

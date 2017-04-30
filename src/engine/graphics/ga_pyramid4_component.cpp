@@ -7,7 +7,7 @@
 ** This file is distributed under the MIT License. See LICENSE.txt.
 */
 
-#include "ga_cube_component.h"
+#include "ga_pyramid4_component.h"
 #include "ga_material.h"
 
 #include "entity/ga_entity.h"
@@ -15,7 +15,7 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-ga_cube_component::ga_cube_component(ga_entity* ent, const char* texture_file, GLfloat length, GLfloat height, GLfloat depth) : ga_component(ent)
+ga_pyramid4_component::ga_pyramid4_component(ga_entity* ent, const char* texture_file, GLfloat length, GLfloat height, GLfloat depth) : ga_component(ent)
 {
 	_material = new ga_unlit_texture_material(texture_file);
 	_material->init();
@@ -27,14 +27,15 @@ ga_cube_component::ga_cube_component(ga_entity* ent, const char* texture_file, G
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		// Top
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
 		// Back
 		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		// Left
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		// Right
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
@@ -43,76 +44,48 @@ ga_cube_component::ga_cube_component(ga_entity* ent, const char* texture_file, G
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
-		// Left
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		// Right
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f
 	};
 	GLfloat vertices[] = {
 		// Front
-		(-1.0f)*(length), (-1.0f)*(height), (depth),
-		(length),         (-1.0f)*(height), (depth),
-		(length),         (height),         (depth),
-		(-1.0f)*(length), (height),         (depth),
-		// Top
-		(-1.0f)*(length), (height),         (depth),
-		(length),         (height),         (depth),
-		(length),         (height),         (-1.0f)*(depth),
-		(-1.0f)*(length), (height),         (-1.0f)*(depth),
-		// Back
-		(length),         (-1.0f)*(height), (-1.0f)*(depth),
+		(1.0f)*(length),  (-1.0f)*(height), (-1.0f)*(depth),
 		(-1.0f)*(length), (-1.0f)*(height), (-1.0f)*(depth),
-		(-1.0f)*(length), (height),         (-1.0f)*(depth),
-		(length),         (height),         (-1.0f)*(depth),
+		0.0f,             (1.0f)*(height),  0.0f,
+		// Back
+		(1.0f)*(length),  (-1.0f)*(height), (1.0f)*(depth),
+		(-1.0f)*(length), (-1.0f)*(height), (1.0f)*(depth),
+		0.0f,             (1.0f)*(height),  0.0f,
+		// Left
+		(-1.0f)*(length), (-1.0f)*(height), (1.0f)*(depth),
+		(-1.0f)*(length), (-1.0f)*(height), (-1.0f)*(depth),
+		0.0f,             (1.0f)*(height),  0.0f,
+		// Right
+		(1.0f)*(length),  (-1.0f)*(height), (1.0f)*(depth),
+		(1.0f)*(length),  (-1.0f)*(height), (-1.0f)*(depth),
+		0.0f,             (1.0f)*(height),  0.0f,
 		// Bottom
 		(-1.0f)*(length), (-1.0f)*(height), (-1.0f)*(depth),
 		(length),         (-1.0f)*(height), (-1.0f)*(depth),
 		(length),         (-1.0f)*(height), (depth),
 		(-1.0f)*(length), (-1.0f)*(height), (depth),
-		// Left
-		(-1.0f)*(length), (-1.0f)*(height), (-1.0f)*(depth),
-		(-1.0f)*(length), (-1.0f)*(height), (depth),
-		(-1.0f)*(length), (height),         (depth),
-		(-1.0f)*(length), (height),         (-1.0f)*(depth),
-		// Right
-		(length),         (-1.0f)*(height), (depth),
-		(length),         (-1.0f)*(height), (-1.0f)*(depth),
-		(length),         (height),         (-1.0f)*(depth),
-		(length),         (height),         (depth),
 	};
 	static GLfloat texcoords[] = {
 		// Front
-		0.0, 0.0,
-		1.0, 0.0,
-		1.0, 1.0,
 		0.0, 1.0,
-		// Top
-		0.0, 0.0,
-		1.0, 0.0,
 		1.0, 1.0,
-		0.0, 1.0,
+		0.5, 0.0,
 		// Back
-		0.0, 0.0,
-		1.0, 0.0,
-		1.0, 1.0,
 		0.0, 1.0,
-		// Bottom
-		0.0, 0.0,
-		1.0, 0.0,
 		1.0, 1.0,
-		0.0, 1.0,
+		0.5, 0.0,
 		// Left
-		0.0, 0.0,
-		1.0, 0.0,
-		1.0, 1.0,
 		0.0, 1.0,
+		1.0, 1.0,
+		0.5, 0.0,
 		// Right
+		0.0, 1.0,
+		1.0, 1.0,
+		0.5, 0.0,
+		// Bottom
 		0.0, 0.0,
 		1.0, 0.0,
 		1.0, 1.0,
@@ -121,22 +94,15 @@ ga_cube_component::ga_cube_component(ga_entity* ent, const char* texture_file, G
 	static GLushort indices[] = {
 		// Front
 		0,  1,  2,
-		2,  3,  0,
-		// Top
-		4,  5,  6,
-		6,  7,  4,
 		// Back
-		8,  9, 10,
-		10, 11,  8,
+		3,  4,  5,
+		// Left
+		6,  7,  8,
+		// Right
+		9,  10, 11,
 		// Bottom
 		12, 13, 14,
 		14, 15, 12,
-		// Left
-		16, 17, 18,
-		18, 19, 16,
-		// Right
-		20, 21, 22,
-		22, 23, 20,
 	};
 
 	_index_count = uint32_t(sizeof(indices) / sizeof(*indices));
@@ -167,7 +133,7 @@ ga_cube_component::ga_cube_component(ga_entity* ent, const char* texture_file, G
 	glBindVertexArray(0);
 }
 
-ga_cube_component::~ga_cube_component()
+ga_pyramid4_component::~ga_pyramid4_component()
 {
 	glDeleteBuffers(4, _vbos);
 	glDeleteVertexArrays(1, &_vao);
@@ -175,7 +141,7 @@ ga_cube_component::~ga_cube_component()
 	delete _material;
 }
 
-void ga_cube_component::update(ga_frame_params* params)
+void ga_pyramid4_component::update(ga_frame_params* params)
 {
 	float dt = std::chrono::duration_cast<std::chrono::duration<float>>(params->_delta_time).count();
 	ga_quatf axis_angle;
@@ -183,7 +149,7 @@ void ga_cube_component::update(ga_frame_params* params)
 	get_entity()->rotate(axis_angle);
 
 	ga_static_drawcall draw;
-	draw._name = "ga_cube_component";
+	draw._name = "ga_pyramid4_component";
 	draw._vao = _vao;
 	draw._index_count = _index_count;
 	draw._transform = get_entity()->get_transform();
